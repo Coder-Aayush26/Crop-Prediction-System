@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Crop Prediction System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background-image: url("{{ url_for('static', filename='farmland.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .Login {
+            width: 350px;
+            margin: 80px auto;
+            /* centers horizontally */
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 30px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border: 1px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        button {
+            display: block;
+            width: 150px;
+            margin: 15px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+        }
+
+        #loader {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Login">
+        <h1>Crop Prediction System</h1>
+        <form action="{{url_for('predict')}}" method="post">
+            <input type="number" step="any" name="Nitrogen" placeholder="Nitrogen" required>
+            <input type="number" step="any" name="Phosphorous" placeholder="Phosphorous" required="required" />
+            <input type="number" step="any" name="Potassium" placeholder="Potassium" required="required" />
+            <input type="number" step="any" name="Temperature" placeholder="Temperature" required="required" />
+            <input type="number" step="any" name="Humidity" placeholder="Humidity" required="required" />
+            <input type="number" step="any" name="ph" placeholder="pH level" required="required" />
+            <input type="number" step="any" name="Rainfall" placeholder="Rainfall" required="required" />
+
+            <button type="submit" class="btn btn-primary btn block btn-large">Predict</button>
+            <div id="loader" style="display:none;">
+                <div class="spinner"></div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 id="predic">
+            {{prediction_text}}
+        </h1>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const loader = document.getElementById("loader");
+            const button = document.querySelector("button");
+
+            if (form) {
+                form.addEventListener("submit", function () {
+                    loader.style.display = "flex";
+                    button.disabled = true;
+                    button.innerText = "Predicting...";
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
