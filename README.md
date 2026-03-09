@@ -126,7 +126,7 @@ Users provide the following inputs:
 
 ## 👨‍💻 Author
 
-**Aayush**
+**Aayush Praveen**
 
 Machine Learning and Web Development Enthusiast
 
